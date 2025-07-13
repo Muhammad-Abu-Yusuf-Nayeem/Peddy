@@ -1,7 +1,19 @@
-.lato{
+html {
+  scroll-behavior: smooth;
+}
+.lato {
   font-family: "Lato", sans-serif;
 }
 
-.title-md{
-    font-size: 20px;
+.title-md {
+  font-size: 20px;
+}
+.category-btn {
+  margin: auto;
+  display: flex;
+  width: 80%;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0;
 }
