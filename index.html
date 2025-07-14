@@ -134,11 +134,12 @@
         ></div>
         <div id="bestDeal" class="w-11/12 my-8 mx-auto flex justify-between">
           <a href="" class="btn text-2xl p-0">Best Deal For You</a>
-          <a
-            href=""
+          <button
+            id="sortByPriceBtn"
             class="btn py-6 px-10 bg-[#0E7A81] text-white text-2xl rounded-lg"
-            >Sort by Price</a
           >
+            Sort by Price
+          </button>
         </div>
         <div
           id=""
@@ -148,9 +149,7 @@
           <div
             id="animalsContainer"
             class="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto gap-7"
-          >
-            
-          </div>
+          ></div>
           <div
             id="like-container"
             class="col-span-1 border mx-auto p-5 rounded-lg border-gray-200"
@@ -166,6 +165,12 @@
         </div>
       </div>
     </main>
+    <div
+      id="spinner"
+      class="fixed inset-0 z-50 bg-white/70 flex justify-center items-center hidden"
+    >
+      <span class="loading loading-spinner text-[#0E7A81] w-16 h-16"></span>
+    </div>
 
     <script src="index.js"></script>
   </body>

@@ -10,14 +10,31 @@ const loadCategories = () => {
 };
 
 //create load pets by category id
-const loadCategoriesByID = (id = "") => {
-  console.log(id);
-  fetch(`https://openapi.programming-hero.com/api/peddy/category/${id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      displayAllAnimalsByCategory(data);
-    })
-    .catch((error) => console.log(error));
+const loadCategoriesByID = async (id = "") => {
+  const spinner = document.getElementById("spinner");
+  spinner.classList.remove("hidden"); // Show spinner
+  const start = Date.now();
+
+  try {
+    const res = await fetch(
+      `https://openapi.programming-hero.com/api/peddy/category/${id}`
+    );
+    const data = await res.json();
+
+    const duration = Date.now() - start;
+    const remaining = 2000 - duration;
+
+    setTimeout(
+      () => {
+        spinner.classList.add("hidden"); // Hide spinner after min 2s
+        displayAllAnimalsByCategory(data);
+      },
+      remaining > 0 ? remaining : 0
+    );
+  } catch (error) {
+    console.error(error);
+    spinner.classList.add("hidden");
+  }
 };
 
 //create display categories
@@ -42,18 +59,40 @@ const displayCategories = (categories) => {
 
 //Load All Animal
 const animalURL = "https://openapi.programming-hero.com/api/peddy/pets";
-const loadAllAnimals = () => {
-  fetch(animalURL)
-    .then((res) => res.json())
-    .then((data) => {
-      displayAllAnimals(data.pets);
-    })
-    .catch((error) => console.log(error));
+let allPets = []; // Store all pets here
+
+// Modified loadAllAnimals to store pets
+const loadAllAnimals = async () => {
+  const spinner = document.getElementById("spinner");
+  spinner.classList.remove("hidden");
+
+  const start = Date.now(); // Record start time
+  try {
+    const res = await fetch(animalURL);
+    const data = await res.json();
+    allPets = data.pets;
+
+    const duration = Date.now() - start;
+    const remaining = 2000 - duration; // Ensure minimum 2 seconds
+
+    setTimeout(
+      () => {
+        spinner.classList.add("hidden");
+        displayAllAnimals(allPets);
+      },
+      remaining > 0 ? remaining : 0
+    );
+  } catch (error) {
+    console.error(error);
+    spinner.classList.add("hidden");
+  }
 };
+
 //display All Animal
 const displayAllAnimals = (animals) => {
   const petsContainer = document.getElementById("animalsContainer");
   // console.log(animals[6].pet_name);
+  petsContainer.innerHTML = "";
   // add data in html
   animals.forEach((pet) => {
     // create cards
@@ -71,10 +110,26 @@ const displayAllAnimals = (animals) => {
       ${pet.pet_name}
       
     </h2>
-    <p class="text-gray-600 flex items-center gap-3 font-medium"><img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=35oo0tJZ03jT&format=png&color=000000">Breed: ${pet.breed}</p>
-    <p class="text-gray-600 flex items-center  gap-3 font-medium"><img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=89201&format=png&color=000000">Birth: ${ pet.date_of_birth}</p>
-    <p class="text-gray-600 flex items-center  gap-3 font-medium"><img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=11780&format=png&color=000000">Gender: ${pet.gender}</p>
-    <p class="text-gray-600 flex items-center  gap-3 font-medium"><img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=2971&format=png&color=000000">Price: ${pet.price}$</p>
+    <p class="text-gray-600 flex items-center gap-3 font-medium">
+  <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=35oo0tJZ03jT&format=png&color=000000">
+  Breed: ${pet.breed || "Not Available"}
+</p>
+
+<p class="text-gray-600 flex items-center gap-3 font-medium">
+  <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=89201&format=png&color=000000">
+  Birth: ${pet.date_of_birth || "Not Available"}
+</p>
+
+<p class="text-gray-600 flex items-center gap-3 font-medium">
+  <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=11780&format=png&color=000000">
+  Gender: ${pet.gender || "Not Available"}
+</p>
+
+<p class="text-gray-600 flex items-center gap-3 font-medium">
+  <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=2971&format=png&color=000000">
+  Price: ${pet.price ? pet.price + "$" : "Not Available"}
+</p>
+
     <hr class="text-gray-300 py-1">
     
     <div class="card-actions justify-evenly shrink">
@@ -144,6 +199,23 @@ const displayAllAnimalsByCategory = (animals) => {
     petsContainer.append(card);
   });
 };
+
+// Sort by Price (Low to High)
+const sortByPrice = () => {
+  const sortedPets = [...allPets].sort((a, b) => {
+    // Convert prices to numbers, default to 0 if missing
+    const priceA = parseFloat(a.price) || 0;
+    const priceB = parseFloat(b.price) || 0;
+    return priceA - priceB;
+  });
+
+  displayAllAnimals(sortedPets);
+};
+
+// Add event listener
+document
+  .getElementById("sortByPriceBtn")
+  .addEventListener("click", sortByPrice);
 
 loadCategories();
 loadAllAnimals();
