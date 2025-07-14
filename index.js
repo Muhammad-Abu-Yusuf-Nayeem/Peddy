@@ -1,3 +1,63 @@
+async function loadDetails(id) {
+  try {
+    const res = await fetch(
+      `https://openapi.programming-hero.com/api/peddy/pet/${id}`
+    );
+    const data = await res.json();
+
+    console.log("load pet details", id);
+    const modalData = document.getElementById("modal-content");
+    modalData.innerHTML = ""; // Clear old content
+
+    const pet = data.petData;
+    const card = document.createElement("div");
+    card.innerHTML = `
+      <figure>
+        <img class="w-full rounded-lg m-0 mx-auto " src=${
+          pet.image
+        } alt="Pets" />
+      </figure>
+      <h2 class="card-title py-3 text-2xl">${pet.pet_name}</h2>
+      <div class=" grid grid-cols-2 gap-2">        
+        <p class="text-gray-600 flex items-center gap-3 font-medium">
+          <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=35oo0tJZ03jT&format=png&color=000000">
+          Breed: ${pet.breed || "Not Available"}
+        </p>
+        <p class="text-gray-600 flex items-center gap-3 font-medium">
+          <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=89201&format=png&color=000000">
+          Birth: ${pet.date_of_birth || "Not Available"}
+        </p>
+        <p class="text-gray-600 flex items-center gap-3 font-medium">
+          <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=11780&format=png&color=000000">
+          Gender: ${pet.gender || "Not Available"}
+        </p>
+        <p class="text-gray-600 flex items-center gap-3 font-medium">
+          <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=2971&format=png&color=000000">
+          Price: ${pet.price ? pet.price + "$" : "Not Available"}
+        </p>
+        <p class="text-gray-600 flex items-center gap-3 font-medium">
+          <img class="w-4 h-4" src="https://img.icons8.com/?size=100&id=962&format=png&color=000000">
+          Vaccinated Status: ${pet.vaccinated_status || "Not Available"}
+        </p>
+        
+      </div>
+      <div class=" pt-3 ">
+      <hr class="text-gray-300 pb-3 ">
+        <p class="text-lg font-bold py-2">Details Information</p>
+        <p class="text-gray-600 font-medium">${
+          pet.pet_details || "Not Available"
+        }</p></div>
+    `;
+
+    modalData.append(card);
+
+    // ✅ Show the correct modal
+    document.getElementById("pet_details").showModal();
+  } catch (error) {
+    console.error("Failed to load pet details", error);
+  }
+}
+
 //create load categories
 const categoryURL = "https://openapi.programming-hero.com/api/peddy/categories";
 const loadCategories = () => {
@@ -43,7 +103,7 @@ const displayCategories = (categories) => {
   // add data in html
   categories.forEach((element) => {
     //create button
-    console.log(element.category);
+    // console.log(element.category);
     const buttonContainer = document.createElement("div");
     buttonContainer.innerHTML = `
       <button id="btn-${element.category}" onclick="loadCategoriesByID('${element.category}')" class="category-btn rounded-lg border gap-4 text-2xl font-black">
@@ -73,7 +133,7 @@ const loadAllAnimals = async () => {
     allPets = data.pets;
 
     const duration = Date.now() - start;
-    const remaining = 2000 - duration; // Ensure minimum 2 seconds
+    const remaining = 500 - duration; // Ensure minimum 2 seconds
 
     setTimeout(
       () => {
@@ -135,7 +195,9 @@ const displayAllAnimals = (animals) => {
     <div class="card-actions justify-evenly shrink">
       <div class="badge border border-[rgba(14,122,129,0.30)]  p-4"><img  class="w-6 h-6" src="https://img.icons8.com/?size=100&id=42460&format=png&color=000000"></div>
       <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">Adopt</div>
-      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">Details</div>
+      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4" onclick="loadDetails('${
+        pet.petId
+      }')">Details</div>
     </div>
   </div>
 </div>
@@ -145,7 +207,7 @@ const displayAllAnimals = (animals) => {
 };
 //display Animal by category
 const displayAllAnimalsByCategory = (animals) => {
-  console.log(animals.data.length);
+  // console.log(animals.data.length);
   const petsContainer = document.getElementById("animalsContainer");
   petsContainer.innerHTML = "";
   if (animals.data.length == 0) {
@@ -191,7 +253,8 @@ const displayAllAnimalsByCategory = (animals) => {
     <div class="card-actions justify-evenly shrink">
       <div class="badge border border-[rgba(14,122,129,0.30)]  p-4"><img  class="w-6 h-6" src="https://img.icons8.com/?size=100&id=42460&format=png&color=000000"></div>
       <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">Adopt</div>
-      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">Details</div>
+      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4"
+      id="details" onclick="loadDetails('${pet.petId}')">Details</div>
     </div>
   </div>
 </div>
@@ -216,6 +279,8 @@ const sortByPrice = () => {
 document
   .getElementById("sortByPriceBtn")
   .addEventListener("click", sortByPrice);
+
+// show modal
 
 loadCategories();
 loadAllAnimals();

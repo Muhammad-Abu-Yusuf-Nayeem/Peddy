@@ -172,6 +172,20 @@
       <span class="loading loading-spinner text-[#0E7A81] w-16 h-16"></span>
     </div>
 
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn" onclick="pet_details.showModal()">open modal</button>
+    <dialog id="pet_details" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <div id="modal-content" class=""></div>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+
     <script src="index.js"></script>
   </body>
 </html>
