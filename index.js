@@ -1,3 +1,12 @@
+function addLikeContainer(imgURL) {
+  const imgContainer = document.getElementById("img-container");
+  const newImg = document.createElement("div");
+  newImg.innerHTML = `
+      <img class="object-cover  rounded-lg" src=${imgURL}/>
+    `;
+  imgContainer.append(newImg);
+}
+
 async function loadDetails(id) {
   try {
     const res = await fetch(
@@ -193,11 +202,18 @@ const displayAllAnimals = (animals) => {
     <hr class="text-gray-300 py-1">
     
     <div class="card-actions justify-evenly shrink">
-      <div class="badge border border-[rgba(14,122,129,0.30)]  p-4"><img  class="w-6 h-6" src="https://img.icons8.com/?size=100&id=42460&format=png&color=000000"></div>
-      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">Adopt</div>
-      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4" onclick="loadDetails('${
+      <div class="badge border border-[rgba(14,122,129,0.30)]  p-4" onclick="addLikeContainer('${
+        pet.image
+      }')"><img  class="w-6 h-6 cursor-pointer" src="https://img.icons8.com/?size=100&id=42460&format=png&color=000000"></div>
+      <button onclick="attachAdoptListeners()" class="adopt-button badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">
+  Adopt
+</button>
+      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4 cursor-pointer" onclick="loadDetails('${
         pet.petId
-      }')">Details</div>
+      }')">
+  Details
+</div>
+
     </div>
   </div>
 </div>
@@ -216,10 +232,8 @@ const displayAllAnimalsByCategory = (animals) => {
       <div class="flex flex-col justify-center items-center mx-auto">
               <img class="w-1/8" src="images/error.webp" alt="" />
               <h2 class="py-3 font-bold text-xl text-center">No Information Available</h2>
-              <p class="text-gray-600 text-sm text-center w-1/2">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a.
+              <p class="text-gray-600 text-sm text-center w-1/2 pb-10">
+                We couldn’t find any details to show right now. Sometimes, stories take a little longer to unfold — please check back soon, or explore other ways to bring love and light into a child’s life.
               </p>
             </div>
     `;
@@ -251,9 +265,11 @@ const displayAllAnimalsByCategory = (animals) => {
     <hr class="text-gray-300 py-1">
     
     <div class="card-actions justify-evenly shrink">
-      <div class="badge border border-[rgba(14,122,129,0.30)]  p-4"><img  class="w-6 h-6" src="https://img.icons8.com/?size=100&id=42460&format=png&color=000000"></div>
-      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">Adopt</div>
-      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4"
+      <div class="badge border border-[rgba(14,122,129,0.30)]  p-4" onclick="addLikeContainer('${pet.image}')"><img  class="w-6 h-6 cursor-pointer" src="https://img.icons8.com/?size=100&id=42460&format=png&color=000000"></div>
+      <button  onclick="attachAdoptListeners()" class="adopt-button badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4">
+  Adopt
+</button>
+      <div class="badge border border-[rgba(14,122,129,0.30)] text-[#0E7A81] text-md font-bold p-4 cursor-pointer"
       id="details" onclick="loadDetails('${pet.petId}')">Details</div>
     </div>
   </div>
@@ -281,6 +297,31 @@ document
   .addEventListener("click", sortByPrice);
 
 // show modal
+// Function to handle adoption
+const handleAdoptClick = (button) => {
+  let count = 3;
+  const originalText = button.innerText;
+  button.disabled = true;
+
+  const countdownInterval = setInterval(() => {
+    button.innerText = count;
+    count--;
+
+    if (count < 0) {
+      clearInterval(countdownInterval);
+      button.innerText = "Adopted";
+      button.classList.add("bg-green-500", "text-white");
+    }
+  }, 1000);
+};
+
+// Function to attach adopt button listeners
+const attachAdoptListeners = () => {
+  const adoptButtons = document.querySelectorAll(".adopt-button");
+  adoptButtons.forEach((btn) => {
+    btn.addEventListener("click", () => handleAdoptClick(btn));
+  });
+};
 
 loadCategories();
 loadAllAnimals();

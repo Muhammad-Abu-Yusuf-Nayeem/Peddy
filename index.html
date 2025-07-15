@@ -93,10 +93,12 @@
               <h1 class="lg:text-6xl text-4xl font-bold w-8/12 mx-auto">
                 Your Path to Adoption Starts Here
               </h1>
-              <p class="py-6 w-11/12 mx-auto text-center">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a.
+              <p class="py-6 w-8/12 mx-auto text-center">
+                Every child deserves a place to call home — a family to hold
+                them, love them, and walk beside them. Adoption isn’t just a
+                process; it’s a promise of belonging, of hope, and of a future
+                filled with laughter and love. Let this be the moment your
+                family’s story begins.
               </p>
               <a
                 href="#adoptYourBestFriend"
@@ -120,9 +122,11 @@
                 Adopt Your Best Friend
               </h1>
               <p class="py-6 w-11/12 mx-auto text-center">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a.
+                Every family has a story — let yours begin here. We believe
+                adoption is a beautiful path to creating lasting bonds and
+                lifelong love. Whether you're looking to grow your family or
+                give a child a loving home, we're here to guide you every step
+                of the way.
               </p>
             </div>
           </div>
@@ -155,11 +159,27 @@
             class="col-span-1 border mx-auto p-5 rounded-lg border-gray-200"
           >
             <!-- likes container -->
-            <div class="grid grid-cols-2 gap-3">
-              <img src="https://i.ibb.co.com/4g3Jrjf/pet-4.jpg" alt="" />
-              <img src="https://i.ibb.co.com/4g3Jrjf/pet-4.jpg" alt="" />
-              <img src="https://i.ibb.co.com/4g3Jrjf/pet-4.jpg" alt="" />
-              <img src="https://i.ibb.co.com/4g3Jrjf/pet-4.jpg" alt="" />
+            <div id="img-container" class="grid grid-cols-2 gap-3">
+              <img
+                class="object-cover rounded-lg"
+                src="https://i.ibb.co.com/85w4kSt/pet-17.jpg"
+                alt=""
+              />
+              <img
+                class="object-cover rounded-lg"
+                src="https://i.ibb.co.com/p0w744T/pet-1.jpg"
+                alt=""
+              />
+              <img
+                class="object-cover rounded-lg"
+                src="https://i.ibb.co.com/MCDfNqN/pet-8.jpg"
+                alt=""
+              />
+              <img
+                class="object-cover rounded-lg"
+                src="https://i.ibb.co.com/MPJmYwc/pet-14.jpg"
+                alt=""
+              />
             </div>
           </div>
         </div>
@@ -173,7 +193,9 @@
     </div>
 
     <!-- Open the modal using ID.showModal() method -->
-    <button class="btn" onclick="pet_details.showModal()">open modal</button>
+    <button class="btn hidden" onclick="pet_details.showModal()">
+      open modal
+    </button>
     <dialog id="pet_details" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box">
         <div id="modal-content" class=""></div>
