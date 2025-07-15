@@ -99,10 +99,6 @@
 ├── /images
 │ └── logo.webp, pet.webp, error.webp
 
-yaml
-Copy
-Edit
-
 ---
 
 ## 📱 Responsive Design
@@ -126,3 +122,9 @@ To run this project locally:
    git clone https://github.com/your-username/peddy.git
    cd peddy
    ```
+2. Open index.html in your browser.
+
+✅ No build steps or server required — works as a static frontend project!
+
+## 🐕 License
+This project is open source
