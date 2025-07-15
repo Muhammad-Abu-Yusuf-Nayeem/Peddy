@@ -81,9 +81,14 @@ const loadCategories = () => {
 //create load pets by category id
 const loadCategoriesByID = async (id = "") => {
   const spinner = document.getElementById("spinner");
+  const buttons = document.getElementsByClassName("category-btn");
+  for (let btn of buttons) {
+    btn.classList.remove("bg-[#c7fcf7]", "border-[#6fb3ac]");
+  }
+  const button = document.getElementById(`btn-${id}`);
+  button.classList.add("bg-[#c7fcf7]", "border-[#6fb3ac]");
   spinner.classList.remove("hidden"); // Show spinner
   const start = Date.now();
-
   try {
     const res = await fetch(
       `https://openapi.programming-hero.com/api/peddy/category/${id}`
