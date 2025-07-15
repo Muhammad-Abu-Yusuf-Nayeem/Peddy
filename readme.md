@@ -4,7 +4,7 @@
 
 ## 🌐 Live Demo
 
-🔗 [View Live Project](https://your-deployment-link.com)
+🔗 [View Live Project](https://yusuf-peddy.netlify.app/)
 
 ---
 
@@ -127,4 +127,5 @@ To run this project locally:
 ✅ No build steps or server required — works as a static frontend project!
 
 ## 🐕 License
+
 This project is open source
